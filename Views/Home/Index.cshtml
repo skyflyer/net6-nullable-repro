@@ -1,0 +1,29 @@
+﻿@model HomeViewModel
+@{
+    ViewData["id"] = Model?.Number;
+}
+
+@if(Model != null) {
+    <text>@Model.Number</text>
+    @foreach (var asset in Model.Assets){}
+    <a asp-action="CreateAsset" asp-route-id="@Model?.Number" class="btn btn-primary">Create a new asset</a>
+
+    @foreach (var asset in Model.Assets)
+    {
+            <td>@asset.InventoryNumber</td>
+            <td>@asset.Name</td>
+            <td>@asset.Description</td>
+            <td class="table-action text-end">
+                <form method="POST">
+                    <input type="hidden" name="RowVersion" value="@asset.RowVersion" />
+                    <input type="hidden" name="AgentAvsNumber" value="@Model.Number"/>
+                    <a asp-action="EditAsset" asp-route-id="@asset.Id" asp-route-agentAvsNumber="@Model.Number" class="btn btn-icon px-1">
+                        <i class="icon icon-pencil"></i>
+                    </a>
+                    <button asp-action="DeleteAsset" asp-route-id="@asset.Id" class="btn-sm btn btn-link px-1 are-you-sure" type="submit">
+                        <i class="icon icon-trash"></i>
+                    </button>
+                </form>
+            </td>
+    }
+}
